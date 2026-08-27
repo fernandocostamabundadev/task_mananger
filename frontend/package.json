@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "private": true,
   "description": "Frontend do Task Mananger em HTML5, CSS3 e JavaScript puro",
+  "author": "Fernando C. Mabunda",
   "type": "module",
   "scripts": {
     "dev": "vite --host 0.0.0.0",
