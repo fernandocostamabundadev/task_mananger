@@ -1,0 +1,254 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Todo List — organize, priorize e realize suas tarefas."
+    />
+    <title>Task Mananger</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./src/styles.css" />
+  </head>
+  <body>
+    <div class="app-shell">
+      <main class="todo-layout">
+        <aside id="sidebar" class="tools-panel" aria-label="Menu lateral">
+          <nav class="sidebar-nav">
+            <button
+              class="nav-item nav-item--active"
+              data-view="all"
+              type="button"
+            >
+              <span>Todas as tarefas</span
+              ><span id="countAll" class="nav-count">0</span>
+            </button>
+            <button class="nav-item" data-view="today" type="button">
+              <span>Hoje</span><span id="countToday" class="nav-count">0</span>
+            </button>
+            <button class="nav-item" data-view="important" type="button">
+              <span>Importantes</span
+              ><span id="countImportant" class="nav-count">0</span>
+            </button>
+            <button class="nav-item" data-view="pending" type="button">
+              <span>Pendentes</span
+              ><span id="countPending" class="nav-count">0</span>
+            </button>
+            <button class="nav-item" data-view="completed" type="button">
+              <span>Concluídas</span
+              ><span id="countCompleted" class="nav-count">0</span>
+            </button>
+            <button class="nav-item" data-view="archived" type="button">
+              <span>Arquivo</span
+              ><span id="countArchived" class="nav-count">0</span>
+            </button>
+          </nav>
+
+          <div class="sidebar-section">
+            <div class="section-heading">
+              <span>LISTAS</span
+              ><button
+                id="addListBtn"
+                class="mini-btn"
+                type="button"
+                aria-label="Adicionar lista"
+              >
+                +
+              </button>
+            </div>
+            <button
+              class="list-item active"
+              data-category="Estudos"
+              type="button"
+            >
+              <span class="dot dot--blue"></span><span>Estudos</span
+              ><span class="nav-count" data-category-count="Estudos">0</span>
+            </button>
+            <button class="list-item" data-category="Trabalho" type="button">
+              <span class="dot dot--purple"></span><span>Trabalho</span
+              ><span class="nav-count" data-category-count="Trabalho">0</span>
+            </button>
+            <button class="list-item" data-category="Pessoais" type="button">
+              <span class="dot dot--green"></span><span>Pessoais</span
+              ><span class="nav-count" data-category-count="Pessoais">0</span>
+            </button>
+            <button class="list-item" data-category="Projetos" type="button">
+              <span class="dot dot--orange"></span><span>Projetos</span
+              ><span class="nav-count" data-category-count="Projetos">0</span>
+            </button>
+          </div>
+
+          <div class="progress-card">
+            <div class="section-label">PROGRESSO GERAL</div>
+            <div
+              id="progressRing"
+              class="progress-ring"
+              style="--progress: 0deg"
+            >
+              <div class="progress-ring-inner">
+                <strong id="progressPercent">0%</strong
+                ><span id="progressCompleted">0 concluídas</span>
+              </div>
+            </div>
+            <div id="progressMeta" class="progress-meta">de 0 tarefas</div>
+            <div class="progress-bar"><span id="progressBar"></span></div>
+          </div>
+        </aside>
+
+        <section class="content-panel">
+          <div class="welcome-row">
+            <div>
+              <h2>Task Mananger</h2>
+              <p>organize.priorize.realize</p>
+            </div>
+          </div>
+
+          <div id="searchPanel" class="search-panel">
+            <div class="search-box">
+              <input
+                id="searchInput"
+                type="search"
+                placeholder="Pesquisar tarefas..."
+                autocomplete="off"
+              /><kbd>⌘ K</kbd>
+            </div>
+            <div class="toolbar-actions">
+              <button
+                id="newTaskBtn"
+                class="new-task-btn new-task-btn--compact"
+                type="button"
+              >
+                ＋ Nova tarefa
+              </button>
+              <button
+                id="clearFiltersBtn"
+                class="sidebar-launcher"
+                type="button"
+                aria-label="Abrir menu lateral"
+              >
+                <span class="sidebar-burger" aria-hidden="true">
+                  <span></span>
+                  <span></span>
+                  <span></span>
+                </span>
+              </button>
+            </div>
+          </div>
+
+          <div class="task-tabs" role="tablist">
+            <button class="tab active" data-tab="all" type="button">
+              Todas <span id="tabAll">0</span>
+            </button>
+            <button class="tab" data-tab="pending" type="button">
+              Pendentes <span id="tabPending">0</span>
+            </button>
+            <button class="tab" data-tab="completed" type="button">
+              Concluídas <span id="tabCompleted">0</span>
+            </button>
+            <button class="tab" data-tab="overdue" type="button">
+              Atrasadas <span id="tabOverdue">0</span>
+            </button>
+          </div>
+
+          <section class="task-panel">
+            <div class="task-table-head">
+              <label class="col-check"
+                ><input
+                  id="selectAll"
+                  type="checkbox"
+                  aria-label="Selecionar todas" /></label
+              ><span>TAREFA</span><span>PRIORIDADE</span><span>STATUS</span
+              ><span>AÇÃO</span>
+            </div>
+            <div id="taskList" class="task-list" aria-live="polite"></div>
+            <div class="list-footer">
+              <span id="resultsSummary">Mostrando 0 tarefas</span>
+              <div id="pagination" class="pagination"></div>
+            </div>
+          </section>
+        </section>
+      </main>
+    </div>
+
+    <div id="taskModal" class="modal" hidden>
+      <div class="modal-backdrop" data-close-modal></div>
+      <section
+        class="modal-card"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="formTitle"
+      >
+        <div class="modal-header">
+          <div>
+            <span class="eyebrow">Task Mananger</span>
+            <h2 id="formTitle">Nova tarefa</h2>
+          </div>
+          <button
+            id="closeModalBtn"
+            class="modal-close"
+            type="button"
+            aria-label="Fechar"
+          >
+            ×
+          </button>
+        </div>
+        <form id="taskForm">
+          <label
+            >Título<input
+              id="taskTitle"
+              maxlength="100"
+              required
+              placeholder="Ex.: Estudar Física Quântica"
+          /></label>
+          <label
+            >Descrição<textarea
+              id="taskDescription"
+              maxlength="500"
+              rows="3"
+              placeholder="Adicione uma breve descrição..."
+            ></textarea>
+          </label>
+          <div class="form-grid">
+            <label
+              >Status<select id="taskStatus">
+                <option value="PENDING">Pendente</option>
+                <option value="IN_PROGRESS">Em andamento</option>
+                <option value="COMPLETED">Concluída</option>
+              </select></label
+            >
+            <label
+              >Prioridade<select id="taskPriority">
+                <option value="LOW">Baixa</option>
+                <option value="MEDIUM" selected>Média</option>
+                <option value="HIGH">Alta</option>
+              </select></label
+            >
+            <label>Data<input id="taskDueDate" type="date" /></label>
+            <label
+              >Lista<select id="taskCategory">
+                <option>Estudos</option>
+                <option>Trabalho</option>
+                <option>Pessoais</option>
+                <option>Projetos</option>
+              </select></label
+            >
+          </div>
+          <div class="modal-actions">
+            <button id="cancelEditBtn" class="ghost-btn" type="button">
+              Cancelar</button
+            ><button class="new-task-btn" type="submit">Salvar tarefa</button>
+          </div>
+        </form>
+      </section>
+    </div>
+
+    <div id="toast" class="toast" role="status" aria-live="polite"></div>
+    <script type="module" src="./src/main.js"></script>
+  </body>
+</html>
